@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Geographical Impact of Snow Sports in Utah</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+      color: #2c3e50;
+    }
+    header {
+      background-color: #006064;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      color: #004d40;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #004d40;
+      color: white;
+      margin-top: 40px;
+    }
+    .clue-box {
+      background: #ffffff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 10px 16px;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #004d40;
+    }
+    .hidden {
+      display: none;
+    }
+    #timer {
+      font-size: 1.4em;
+      color: #d32f2f;
+      font-weight: bold;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Geographical Impact of Snow Sports in Utah</h1>
+  </header>
+  <div class="container">
+    <div id="timer">Time left: 2:00</div>
+
+    <div class="clue-box" id="clue1">
+      <h3>Clue 1:</h3>
+      <p>Which season is most associated with snow sports in Utah?</p>
+      <button onclick="showHint(1)">Hint</button>
+      <p id="hint1" class="hidden"><em>It’s cold and snowy.</em></p>
+      <input type="text" id="answer1" placeholder="Your answer">
+      <button onclick="checkClue1()">Submit</button>
+    </div>
+
+    <div class="clue-box hidden" id="game2">
+      <h3>Clue 2 Puzzle: Unscramble the Word</h3>
+      <p>Unscramble this word: <strong>tanumon</strong></p>
+      <button onclick="showHint(2)">Hint</button>
+      <p id="hint2" class="hidden"><em>You might find a ski lodge in this type of place.</em></p>
+      <input type="text" id="unscrambleInput2" placeholder="Type your answer here">
+      <button onclick="checkUnscramble2()">Submit</button>
+      <p id="unscrambleResult2"></p>
+    </div>
+
+    <div class="clue-box hidden" id="game3">
+      <h3>Clue 3 Puzzle: Unscramble the Word</h3>
+      <p>Unscramble this word: <strong>istnfracture</strong></p>
+      <button onclick="showHint(3)">Hint</button>
+      <p id="hint3" class="hidden"><em>It supports buildings, roads, and services.</em></p>
+      <input type="text" id="scrambleInput" placeholder="Type your answer here">
+      <button onclick="checkScramble()">Submit</button>
+    </div>
+
+    <div class="clue-box hidden" id="clue4">
+      <h3>Final Unlock:</h3>
+      <p>Type the three discovered keywords (no spaces, all lowercase):</p>
+      <button onclick="showHint(4)">Hint</button>
+      <p id="hint4" class="hidden"><em>Put all 3 clue answers together with no spaces.</em></p>
+      <input type="text" id="finalAnswer" placeholder="Your final answer">
+      <button onclick="checkFinal()">Unlock Answer</button>
+    </div>
+
+    <div class="clue-box hidden" id="content">
+      <h3>How has the seasonal increase in population due to snow sports tourism affected healthcare access and public services in Utah's mountain towns?</h3>
+      <p>
+        The seasonal increase in population due to snow sports tourism has placed considerable strain on healthcare access and public services in Utah’s mountain towns. During the winter months, towns like Park City and those near major ski resorts experience a sharp influx of tourists, seasonal workers, and athletes. This temporary population boom can overwhelm local clinics and hospitals, many of which are not equipped for high volumes of emergency visits, especially from snow sport-related injuries like fractures and concussions.
+      </p>
+      <p>
+        Emergency response teams often face increased demand, and resources such as ambulances and trauma care can become limited. Additionally, housing and infrastructure designed for smaller populations may struggle to accommodate both residents and visitors, affecting everything from traffic to sanitation services. While the tourism industry brings economic benefits, it also creates challenges in maintaining consistent healthcare and public service quality for locals during peak seasons.
+      </p>
+      <p><strong>Credits:</strong> Matteo Cain</p>
+    </div>
+
+    <div class="clue-box hidden" id="timeout">
+      <h3>Time's Up!</h3>
+      <p>Sorry, you ran out of time! Try again to uncover all the clues and unlock the answer.</p>
+    </div>
+  </div>
+  <footer>
+    &copy; 2025 Geographical Study Project
+  </footer>
+
+  <script>
+    let time = 120;
+    let clues = { c1: false, c2: false, c3: false };
+    const timerDisplay = document.getElementById('timer');
+
+    const interval = setInterval(() => {
+      if (time <= 0) {
+        clearInterval(interval);
+        document.getElementById('clue1').classList.add('hidden');
+        document.getElementById('game2').classList.add('hidden');
+        document.getElementById('game3').classList.add('hidden');
+        document.getElementById('clue4').classList.add('hidden');
+        document.getElementById('timeout').classList.remove('hidden');
+        return;
+      }
+      time--;
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      timerDisplay.textContent = `Time left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }, 1000);
+
+    function checkClue1() {
+      const input = document.getElementById('answer1').value.trim().toLowerCase();
+      if (input === 'winter') {
+        clues.c1 = true;
+        document.getElementById('clue1').classList.add('hidden');
+        document.getElementById('game2').classList.remove('hidden');
+      } else {
+        alert('Try again!');
+      }
+    }
+
+    function checkUnscramble2() {
+      const input = document.getElementById('unscrambleInput2').value.trim().toLowerCase();
+      const result = document.getElementById('unscrambleResult2');
+      if (input === 'mountain') {
+        clues.c2 = true;
+        document.getElementById('game2').classList.add('hidden');
+        document.getElementById('game3').classList.remove('hidden');
+      } else {
+        result.textContent = 'Nope! Try again.';
+      }
+    }
+
+    function checkScramble() {
+      const input = document.getElementById('scrambleInput').value.trim().toLowerCase();
+      if (input === 'infrastructure') {
+        clues.c3 = true;
+        document.getElementById('game3').classList.add('hidden');
+        document.getElementById('clue4').classList.remove('hidden');
+      } else {
+        alert('Nope! Try again.');
+      }
+    }
+
+    function checkFinal() {
+      const finalInput = document.getElementById('finalAnswer').value.trim().toLowerCase();
+      if (finalInput === 'wintermountaininfrastructure') {
+        document.getElementById('clue4').classList.add('hidden');
+        document.getElementById('content').classList.remove('hidden');
+        clearInterval(interval);
+      } else {
+        alert('That’s not the right combo. Try again!');
+      }
+    }
+
+    function showHint(num) {
+      document.getElementById('hint' + num).classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
